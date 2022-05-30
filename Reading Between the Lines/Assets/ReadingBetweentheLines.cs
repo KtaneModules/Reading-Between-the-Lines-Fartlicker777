@@ -124,26 +124,26 @@ public class ReadingBetweentheLines : MonoBehaviour {
          willSolve = false;
       }
       word = "";
-      for (int i = 0; i < RedInd.Count(); i++) {
+      for (int i = 0; i < YelInd.Count(); i++) {
          word += WordConglomerate[RedInd[i]].ToString();
       }
       if (!CheckHelper(word)) {
          willSolve = false;
       }
       word = "";
-      for (int i = 0; i < RedInd.Count(); i++) {
+      for (int i = 0; i < GreInd.Count(); i++) {
          word += WordConglomerate[RedInd[i]].ToString();
       }
       if (!CheckHelper(word)) {
          willSolve = false;
       }
-      word = "";
-      for (int i = 0; i < RedInd.Count(); i++) {
+      /*word = ""; Technically not necessary, since if the other three are right, this is guaranteed to be right.
+      for (int i = 0; i < BluInd.Count(); i++) {
          word += WordConglomerate[RedInd[i]].ToString();
       }
       if (!CheckHelper(word)) {
          willSolve = false;
-      }
+      }*/
 
       if (willSolve) {
          GetComponent<KMBombModule>().HandlePass();
@@ -171,7 +171,7 @@ public class ReadingBetweentheLines : MonoBehaviour {
       Splits[3] = Rnd.Range(1, 4);
       for (int i = 0; i < 4; i++) {
          Progress[i] = 0;
-         Debug.LogFormat("[Reading Between the Lines #{0}] the word \"{2}\" is split into {1} groups of {3}.", ModuleId, 6 / Splits[i], ChosenWords[i], Splits[i]);
+         Debug.LogFormat("[Reading Between the Lines #{0}] The word \"{2}\" is split into {1} groups of {3}.", ModuleId, 6 / Splits[i], ChosenWords[i], Splits[i]);
          Availability[i] = true;
       }
       WordConglomerate = "";
@@ -214,7 +214,7 @@ public class ReadingBetweentheLines : MonoBehaviour {
       Splits.Shuffle();
       for (int i = 0; i < 4; i++) {
          Availability[i] = true;
-         Debug.LogFormat("[Reading Between the Lines #{0}] the word \"{2}\" is split into {1} groups of {3}.", ModuleId, 6 / Splits[i], ChosenWords[i], Splits[i]);
+         Debug.LogFormat("[Reading Between the Lines #{0}] The word \"{2}\" is split into {1} groups of {3}.", ModuleId, 6 / Splits[i], ChosenWords[i], Splits[i]);
       }
       SplitWords();
    }
