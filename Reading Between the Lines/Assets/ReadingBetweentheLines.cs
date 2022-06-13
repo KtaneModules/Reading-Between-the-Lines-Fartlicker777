@@ -125,21 +125,21 @@ public class ReadingBetweentheLines : MonoBehaviour {
       }
       word = "";
       for (int i = 0; i < YelInd.Count(); i++) {
-         word += WordConglomerate[RedInd[i]].ToString();
+         word += WordConglomerate[YelInd[i]].ToString();
       }
       if (!CheckHelper(word)) {
          willSolve = false;
       }
       word = "";
       for (int i = 0; i < GreInd.Count(); i++) {
-         word += WordConglomerate[RedInd[i]].ToString();
+         word += WordConglomerate[GreInd[i]].ToString();
       }
       if (!CheckHelper(word)) {
          willSolve = false;
       }
       /*word = ""; Technically not necessary, since if the other three are right, this is guaranteed to be right.
       for (int i = 0; i < BluInd.Count(); i++) {
-         word += WordConglomerate[RedInd[i]].ToString();
+         word += WordConglomerate[BluInd[i]].ToString();
       }
       if (!CheckHelper(word)) {
          willSolve = false;
@@ -284,11 +284,19 @@ public class ReadingBetweentheLines : MonoBehaviour {
    }
 
 #pragma warning disable 414
-   private readonly string TwitchHelpMessage = @"Use !{0} RYGB to press that button.";
+   private readonly string TwitchHelpMessage = @"Use !{0} RYGB to press those buttons.";
 #pragma warning restore 414
 
    IEnumerator ProcessTwitchCommand (string Command) {   //Shit.
       Command = Command.Trim().ToUpper();
+      for (int i = 0; i < Command.Length; i++)
+      {
+         if (!Command[i].EqualsAny('R', 'Y', 'G', 'B'))
+         {
+            yield return "sendtochaterror I don't understand!";
+            yield break;
+         }
+      }
       yield return null;
       for (int i = 0; i < Command.Length; i++) {
          switch (Command[i]) {
@@ -301,18 +309,51 @@ public class ReadingBetweentheLines : MonoBehaviour {
             case 'G':
                ColoredButtons[2].OnInteract();
                break;
-            case 'B':
+            default:
                ColoredButtons[3].OnInteract();
                break;
-            default:
-               yield return "sendtochaterror I don't understand!";
-            break;
          }
          yield return new WaitForSeconds(.1f);
       }
    }
 
    IEnumerator TwitchHandleForcedSolve () {
+      for (int i = 0; i < RedInd.Count; i++)
+      {
+         if (ColorSolution[RedInd[i]] != 'R')
+         {
+            GetComponent<KMBombModule>().HandlePass();
+            ModuleSolved = true;
+            yield break;
+         }
+      }
+      for (int i = 0; i < YelInd.Count; i++)
+      {
+         if (ColorSolution[YelInd[i]] != 'Y')
+         {
+            GetComponent<KMBombModule>().HandlePass();
+            ModuleSolved = true;
+            yield break;
+         }
+      }
+      for (int i = 0; i < GreInd.Count; i++)
+      {
+         if (ColorSolution[GreInd[i]] != 'G')
+         {
+            GetComponent<KMBombModule>().HandlePass();
+            ModuleSolved = true;
+            yield break;
+         }
+      }
+      for (int i = 0; i < BluInd.Count; i++)
+      {
+         if (ColorSolution[BluInd[i]] != 'B')
+         {
+            GetComponent<KMBombModule>().HandlePass();
+            ModuleSolved = true;
+            yield break;
+         }
+      }
       while (!ModuleSolved) {
          switch (ColorSolution[Pos]) {
             case 'R':
